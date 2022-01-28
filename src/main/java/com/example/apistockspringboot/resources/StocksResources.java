@@ -44,10 +44,18 @@ public class StocksResources {
     public ResponseEntity<Stocks> updateStocks(
             @Valid @RequestBody StockPricesDto stocksDto) throws ResourceNotFoundException {
         Stocks stocks = stocksRepository.findById(stocksDto.getId()).orElseThrow(Error::new);
-        stocks.setBid_min(stocksDto.getBid_min_price());
-        stocks.setBid_max(stocksDto.getBid_max_price());
-        stocks.setAsk_min(stocksDto.getAsk_min_price());
-        stocks.setAsk_max(stocksDto.getAsk_max_price());
+        if (stocksDto.getBid_min_price() != null) {
+            stocks.setBid_min(stocksDto.getBid_min_price());
+        }
+        if (stocksDto.getBid_max_price() != null) {
+            stocks.setBid_max(stocksDto.getBid_max_price());
+        }
+        if (stocksDto.getAsk_min_price() != null){
+            stocks.setAsk_min(stocksDto.getAsk_min_price());
+        }
+        if (stocksDto.getAsk_max_price() != null){
+            stocks.setAsk_max(stocksDto.getAsk_max_price());
+        }
         return new ResponseEntity<>(stocksRepository.save(stocks), HttpStatus.OK);
     }
 }
