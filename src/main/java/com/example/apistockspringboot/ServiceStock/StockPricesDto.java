@@ -9,10 +9,10 @@ import lombok.Setter;
 public class StockPricesDto {
 
     private Long id;
-    private Double bid_min_price;
-    private Double bid_max_price;
-    private Double ask_min_price;
-    private Double ask_max_price;
+    private Double bid_min;
+    private Double bid_max;
+    private Double ask_min;
+    private Double ask_max;
 
     public StockPricesDto() {
     }
