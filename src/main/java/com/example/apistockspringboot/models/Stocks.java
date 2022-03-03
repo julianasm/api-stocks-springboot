@@ -1,5 +1,6 @@
 package com.example.apistockspringboot.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 @Table(name="stocks")
 public class Stocks implements Serializable{
 
@@ -48,4 +50,5 @@ public class Stocks implements Serializable{
         this.created_on = created_on;
         this.updated_on = updated_on;
     }
+
 }

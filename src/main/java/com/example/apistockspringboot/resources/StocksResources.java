@@ -76,13 +76,28 @@ public class StocksResources {
     @CrossOrigin
     @RequestMapping(value =  "/subscribe", consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(@RequestHeader("Authorization") String token){
-        SseEmitter sseEmitter = new SseEmitter();
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
         try {
-            sseEmitter.send(SseEmitter.event().name("INIT"));
+            sseEmitter.send(SseEmitter.event());
         } catch (IOException e){
             e.printStackTrace();
+            System.out.println("teste");
         }
+        sseEmitter.onCompletion(() -> emitters.remove(sseEmitter));
         emitters.add(sseEmitter);
         return sseEmitter;
+    }
+
+    @CrossOrigin
+    @PostMapping("/dispatchEvent")
+    public void dispatchEventToClients(@RequestParam String stocks, @RequestHeader("Authorization") String token) {
+        for (SseEmitter emitter: emitters){
+            try {
+                emitter.send(SseEmitter.event().name("stocks").data(stocks)) ;
+            } catch (IOException e) {
+                emitters.remove(emitter);
+
+            }
+        }
     }
 }
