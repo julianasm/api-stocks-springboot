@@ -23,12 +23,13 @@ public class StocksHistoricPricesService {
         Optional<StocksHistoricPrices> historicPrices = stocksHistoricPricesRepository.findByIdAndDate(stocks.getId(), new Timestamp(date.getTime()));
 
         if (historicPrices.isPresent()){
-            if(historicPrices.get().getHigh() < stocks.getAsk_max()) {
+            if((historicPrices.get().getHigh() < stocks.getAsk_min())) {
                 historicPrices.get().setHigh(stocks.getAsk_min());
             }
             if (historicPrices.get().getLow() > stocks.getAsk_min()) {
                 historicPrices.get().setLow(stocks.getAsk_min());
             }
+            stocksHistoricPricesRepository.save(historicPrices.get());
         }
         else {
             stocksHistoricPricesRepository.save(new StocksHistoricPrices(stocks));

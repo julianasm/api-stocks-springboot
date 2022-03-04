@@ -1,6 +1,7 @@
-package com.example.apistockspringboot.ServiceStock;
+package com.example.apistockspringboot.Dto;
 
 
+import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.models.StocksHistoricPrices;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class StocksHistoricPricesDto {
 
-    private Long id_stock;
+    private Stocks id_stock;
     private Double open;
     private Double close;
     private Double high;

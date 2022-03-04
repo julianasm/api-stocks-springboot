@@ -1,9 +1,6 @@
 package com.example.apistockspringboot.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +12,9 @@ import java.util.Date;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "stocks_historic_prices")
 public class StocksHistoricPrices implements Serializable {
 
     @Id
@@ -23,7 +23,7 @@ public class StocksHistoricPrices implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_stock")
-    private Long id_stock;
+    private Stocks id_stock;
 
     private Double open;
 
@@ -37,7 +37,8 @@ public class StocksHistoricPrices implements Serializable {
 
     public StocksHistoricPrices(Stocks stocks) {
         Date date = new Date();
-        this.open = stocks.getAsk_max();
+        this.id_stock = stocks;
+        this.open = stocks.getAsk_min();
         this.close = stocks.getAsk_min();
         this.high = stocks.getAsk_min();
         this.low  = stocks.getAsk_min();

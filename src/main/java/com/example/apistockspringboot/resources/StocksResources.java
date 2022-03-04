@@ -1,16 +1,12 @@
 package com.example.apistockspringboot.resources;
 
-import com.example.apistockspringboot.ServiceStock.StockPricesDto;
-import com.example.apistockspringboot.ServiceStock.StockService;
+import com.example.apistockspringboot.Dto.StockPricesDto;
 import com.example.apistockspringboot.ServiceStock.StocksHistoricPricesService;
 import com.example.apistockspringboot.repository.StocksRepository;
 import com.example.apistockspringboot.models.Stocks;
 import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -22,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class StocksResources {
 
-    @Autowired
-    StocksRepository stocksRepository;
+    private final StocksRepository stocksRepository;
 
     private final StocksHistoricPricesService stocksHistoricPricesService;
 
