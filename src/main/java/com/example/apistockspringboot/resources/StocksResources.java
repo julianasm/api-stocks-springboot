@@ -2,8 +2,10 @@ package com.example.apistockspringboot.resources;
 
 import com.example.apistockspringboot.ServiceStock.StockPricesDto;
 import com.example.apistockspringboot.ServiceStock.StockService;
+import com.example.apistockspringboot.ServiceStock.StocksHistoricPricesService;
 import com.example.apistockspringboot.repository.StocksRepository;
 import com.example.apistockspringboot.models.Stocks;
+import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -20,17 +23,21 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
+@RequiredArgsConstructor
 public class StocksResources {
 
     @Autowired
     StocksRepository stocksRepository;
 
+    private final StocksHistoricPricesService stocksHistoricPricesService;
 
+    @CrossOrigin
     @GetMapping("/stocks")
     public List<Stocks> listStocks(){
         return stocksRepository.findAll();
     }
 
+    @CrossOrigin
     @GetMapping("/stocks/{id}")
     public Optional<Stocks> listStockUnique(@PathVariable(value="id") Long id) throws Exception{
 
@@ -39,6 +46,7 @@ public class StocksResources {
         return stocksRepository.findById(id);
     }
 
+    @CrossOrigin
     @GetMapping("/stock-info/{id}")
     public Optional<Stocks> listStockInfoUnique(@PathVariable(value="id") Long id) throws Exception{
 
@@ -47,12 +55,14 @@ public class StocksResources {
         return stocksRepository.findById(id);
     }
 
+    @CrossOrigin
     @PostMapping("/new_stock")
     public Stocks saveStock(@RequestBody Stocks stocks){
         return stocksRepository.save(stocks);
     }
 
-    @PutMapping("/update_stocks")
+    @CrossOrigin
+    @PostMapping("/update_stocks")
     public ResponseEntity<Stocks> updateStocks(
             @Valid @RequestBody StockPricesDto stocksDto) throws ResourceNotFoundException {
         Stocks stocks = stocksRepository.findById(stocksDto.getId()).orElseThrow(Error::new);
@@ -68,35 +78,40 @@ public class StocksResources {
         if (stocksDto.getAsk_max() != null){
             stocks.setAsk_max(stocksDto.getAsk_max());
         }
-        return new ResponseEntity<>(stocksRepository.save(stocks), HttpStatus.OK);
+        stocksRepository.save(stocks);
+        System.out.println(stocksDto.getId());
+        dispatchEventToClients();
+        stocksHistoricPricesService.atualizarPrices(stocks);
+        return new ResponseEntity<>(stocks, HttpStatus.OK);
     }
 
     public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     @CrossOrigin
-    @RequestMapping(value =  "/subscribe", consumes = MediaType.ALL_VALUE)
-    public SseEmitter subscribe(@RequestHeader("Authorization") String token){
+    @GetMapping(value =  "/subscribe")
+    public SseEmitter subscribe(HttpServletResponse response){
+        response.setHeader("Cache_control", "no-store");
         SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+
         try {
-            sseEmitter.send(SseEmitter.event());
-        } catch (IOException e){
+            System.out.println("teste subscribe");
+            emitters.add(sseEmitter);
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("teste");
         }
-        sseEmitter.onCompletion(() -> emitters.remove(sseEmitter));
-        emitters.add(sseEmitter);
+        sseEmitter.onCompletion(() -> this.emitters.remove(sseEmitter));
+
         return sseEmitter;
     }
 
-    @CrossOrigin
-    @PostMapping("/dispatchEvent")
-    public void dispatchEventToClients(@RequestParam String stocks, @RequestHeader("Authorization") String token) {
+
+    public void dispatchEventToClients() {
+        System.out.println(emitters.isEmpty());
         for (SseEmitter emitter: emitters){
             try {
-                emitter.send(SseEmitter.event().name("stocks").data(stocks)) ;
+                emitter.send(stocksRepository.findAll());
             } catch (IOException e) {
                 emitters.remove(emitter);
-
             }
         }
     }
