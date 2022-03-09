@@ -10,6 +10,8 @@ import java.util.List;
 
 
 public interface StocksRepository extends JpaRepository<Stocks, Long> {
+ @Query(value = "SELECT * FROM stocks ORDER BY updated_on desc", nativeQuery = true)
+ List<Stocks> findAllOrderByUpdate();
 
 
 

@@ -3,6 +3,8 @@ package com.example.apistockspringboot.models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,8 +36,10 @@ public class Stocks implements Serializable{
 
     private Double bid_max;
 
+    @CreationTimestamp
     private Timestamp created_on;
 
+    @UpdateTimestamp
     private Timestamp updated_on;
 
     public Stocks() {
@@ -43,12 +47,10 @@ public class Stocks implements Serializable{
         this.updated_on = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Stocks(Long id, Double bid_min, Double bid_max, Timestamp created_on, Timestamp updated_on) {
+    public Stocks(Long id, Double bid_min, Double bid_max) {
         this.id = id;
         this.bid_min = bid_min;
         this.bid_max = bid_max;
-        this.created_on = created_on;
-        this.updated_on = updated_on;
     }
 
 }

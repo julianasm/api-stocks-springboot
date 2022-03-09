@@ -1,7 +1,8 @@
 package com.example.apistockspringboot.resources;
 
 import com.example.apistockspringboot.Dto.StockPricesDto;
-import com.example.apistockspringboot.ServiceStock.StocksHistoricPricesService;
+import com.example.apistockspringboot.service.StockService;
+import com.example.apistockspringboot.service.StocksHistoricPricesService;
 import com.example.apistockspringboot.repository.StocksRepository;
 import com.example.apistockspringboot.models.Stocks;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,12 @@ public class StocksResources {
 
     private final StocksHistoricPricesService stocksHistoricPricesService;
 
+    private final StockService stockService;
+
     @CrossOrigin
     @GetMapping("/stocks")
     public List<Stocks> listStocks(){
-        return stocksRepository.findAll();
+        return stocksRepository.findAllOrderByUpdate();
     }
 
     @CrossOrigin
@@ -105,7 +108,7 @@ public class StocksResources {
         System.out.println(emitters.isEmpty());
         for (SseEmitter emitter: emitters){
             try {
-                emitter.send(stocksRepository.findAll());
+                emitter.send(stocksRepository.findAllOrderByUpdate());
             } catch (IOException e) {
                 emitters.remove(emitter);
             }

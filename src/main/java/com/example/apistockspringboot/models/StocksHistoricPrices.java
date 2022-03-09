@@ -25,13 +25,13 @@ public class StocksHistoricPrices implements Serializable {
     @JoinColumn(name = "id_stock")
     private Stocks id_stock;
 
-    private Double open;
+    private Double open = 0.0;
 
-    private Double close;
+    private Double close = 0.0;
 
-    private Double high;
+    private Double high = 0.0;
 
-    private Double low;
+    private Double low = 0.0;
 
     private Timestamp created_on;
 

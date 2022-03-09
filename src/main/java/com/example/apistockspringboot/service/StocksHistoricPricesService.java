@@ -1,4 +1,4 @@
-package com.example.apistockspringboot.ServiceStock;
+package com.example.apistockspringboot.service;
 
 import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.models.StocksHistoricPrices;
