@@ -2,8 +2,6 @@ package com.example.apistockspringboot;
 
 
 import com.example.apistockspringboot.Dto.StocksHistoricPricesDto;
-import com.example.apistockspringboot.models.Stocks;
-import com.example.apistockspringboot.models.StocksHistoricPrices;
 import com.example.apistockspringboot.repository.StocksHistoricPricesRepository;
 import com.example.apistockspringboot.resources.StocksHistoricResources;
 import com.example.apistockspringboot.resources.StocksResources;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.when;
 
