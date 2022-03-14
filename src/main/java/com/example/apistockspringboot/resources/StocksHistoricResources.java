@@ -20,8 +20,7 @@ public class StocksHistoricResources {
 
     @CrossOrigin
     @GetMapping("chart/{id}")
-    public List<StocksHistoricPricesDto> historicPrices(@PathVariable("id") Long id_stock){
-        System.out.println(id_stock);
-        return stocksHistoricPricesRepository.findByIdStock(id_stock).stream().map((StocksHistoricPrices stocksHistoricPrices) -> new StocksHistoricPricesDto(stocksHistoricPrices)).toList();
+    public List<StocksHistoricPricesDto> historicPrices(@PathVariable("id") Long idStock){
+        return stocksHistoricPricesRepository.findByIdStock(idStock).stream().map((StocksHistoricPrices stocksHistoricPrices) -> new StocksHistoricPricesDto(stocksHistoricPrices)).toList();
     }
 }

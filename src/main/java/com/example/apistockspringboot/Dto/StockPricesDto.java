@@ -15,15 +15,15 @@ import java.util.Date;
 public class StockPricesDto {
 
     private Long id;
-    private Double bid_min;
-    private Double bid_max;
-    private Double ask_min;
-    private Double ask_max;
+    private Double bidMin;
+    private Double bidMax;
+    private Double askMin;
+    private Double askMax;
     @UpdateTimestamp
-    private Timestamp updated_on;
+    private Timestamp updatedOn;
 
     public StockPricesDto() {
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
+        this.updatedOn = Timestamp.valueOf(LocalDateTime.now());
     }
 
 }

@@ -14,20 +14,20 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class StocksHistoricPricesDto {
 
-    private Stocks id_stock;
+    private Stocks idStock;
     private Double open;
     private Double close;
     private Double high;
     private Double low;
-    private Timestamp created_on;
+    private Timestamp createdOn;
 
     public StocksHistoricPricesDto(StocksHistoricPrices stocksHistoricPrices){
-        this.id_stock = stocksHistoricPrices.getId_stock();
+        this.idStock = stocksHistoricPrices.getId_stock();
         this.open = stocksHistoricPrices.getOpen();
         this.close = stocksHistoricPrices.getClose();
         this.high = stocksHistoricPrices.getHigh();
         this.low = stocksHistoricPrices.getLow();
-        this.created_on = stocksHistoricPrices.getCreated_on();
+        this.createdOn = stocksHistoricPrices.getCreated_on();
     }
 
 

@@ -8,9 +8,7 @@ import lombok.Setter;
 public class StockInfoDto {
 
     private Long id;
-    private String stock_symbol;
-    private String stock_name;
+    private String stockSymbol;
+    private String stockName;
 
-    public StockInfoDto() {
-    }
 }

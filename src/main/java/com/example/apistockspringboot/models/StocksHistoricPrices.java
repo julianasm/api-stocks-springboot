@@ -23,7 +23,7 @@ public class StocksHistoricPrices implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_stock")
-    private Stocks id_stock;
+    private Stocks idStock;
 
     private Double open = 0.0;
 
@@ -33,16 +33,17 @@ public class StocksHistoricPrices implements Serializable {
 
     private Double low = 0.0;
 
-    private Timestamp created_on;
+    @Column(name="created_on")
+    private Timestamp createdOn;
 
     public StocksHistoricPrices(Stocks stocks) {
         Date date = new Date();
-        this.id_stock = stocks;
-        this.open = stocks.getAsk_min();
-        this.close = stocks.getAsk_min();
-        this.high = stocks.getAsk_min();
-        this.low  = stocks.getAsk_min();
-        this.created_on = new Timestamp(date.getTime());
+        this.idStock = stocks;
+        this.open = stocks.getAskMin();
+        this.close = stocks.getAskMin();
+        this.high = stocks.getAskMin();
+        this.low  = stocks.getAskMin();
+        this.createdOn = new Timestamp(date.getTime());
     }
 
 }

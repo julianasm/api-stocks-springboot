@@ -1,6 +1,7 @@
 package com.example.apistockspringboot.resources;
 
 import com.example.apistockspringboot.Dto.StockPricesDto;
+import com.example.apistockspringboot.handleerror.NotFoundException;
 import com.example.apistockspringboot.service.StockService;
 import com.example.apistockspringboot.service.StocksHistoricPricesService;
 import com.example.apistockspringboot.repository.StocksRepository;
@@ -37,54 +38,39 @@ public class StocksResources {
     }
 
     @CrossOrigin
-    @GetMapping("/stocks/{id}")
-    public Optional<Stocks> listStockUnique(@PathVariable(value="id") Long id) throws Exception{
-
-        Thread.sleep(3000);
-
-        return stocksRepository.findById(id);
-    }
-
-    @CrossOrigin
     @GetMapping("/stock-info/{id}")
-    public Optional<Stocks> listStockInfoUnique(@PathVariable(value="id") Long id) throws Exception{
+    public Optional<Stocks> listStockInfoUnique(@PathVariable(value="id") Long id) throws InterruptedException {
 
         Thread.sleep(3000);
 
         return stocksRepository.findById(id);
     }
 
-    @CrossOrigin
-    @PostMapping("/new_stock")
-    public Stocks saveStock(@RequestBody Stocks stocks){
-        return stocksRepository.save(stocks);
-    }
 
     @CrossOrigin
     @PostMapping("/update_stocks")
     public ResponseEntity<Stocks> updateStocks(
             @Valid @RequestBody StockPricesDto stocksDto) throws ResourceNotFoundException {
         Stocks stocks = stocksRepository.findById(stocksDto.getId()).orElseThrow(Error::new);
-        if (stocksDto.getBid_min() != null) {
-            stocks.setBid_min(stocksDto.getBid_min());
+        if (stocksDto.getBidMin() != null) {
+            stocks.setBidMin(stocksDto.getBidMin());
         }
-        if (stocksDto.getBid_max() != null) {
-            stocks.setBid_max(stocksDto.getBid_max());
+        if (stocksDto.getBidMax() != null) {
+            stocks.setBidMax(stocksDto.getBidMax());
         }
-        if (stocksDto.getAsk_min() != null){
-            stocks.setAsk_min(stocksDto.getAsk_min());
+        if (stocksDto.getAskMin() != null){
+            stocks.setAskMin(stocksDto.getAskMin());
         }
-        if (stocksDto.getAsk_max() != null){
-            stocks.setAsk_max(stocksDto.getAsk_max());
+        if (stocksDto.getAskMax() != null){
+            stocks.setAskMax(stocksDto.getAskMax());
         }
         stocksRepository.save(stocks);
-        System.out.println(stocksDto.getId());
         dispatchEventToClients();
         stocksHistoricPricesService.atualizarPrices(stocks);
         return new ResponseEntity<>(stocks, HttpStatus.OK);
     }
 
-    public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     @CrossOrigin
     @GetMapping(value =  "/subscribe")
@@ -93,7 +79,6 @@ public class StocksResources {
         SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
 
         try {
-            System.out.println("teste subscribe");
             emitters.add(sseEmitter);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +90,6 @@ public class StocksResources {
 
 
     public void dispatchEventToClients() {
-        System.out.println(emitters.isEmpty());
         for (SseEmitter emitter: emitters){
             try {
                 emitter.send(stocksRepository.findAllOrderByUpdate());
