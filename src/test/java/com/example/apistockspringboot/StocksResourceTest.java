@@ -51,7 +51,7 @@ public class StocksResourceTest {
 
 
         RestAssuredMockMvc.given().accept(ContentType.JSON).when()
-                .get("/stocks/{id}", 5L)
+                .get("stock-info/{id}", 5L)
                 .then()
                 .statusCode(HttpStatus.OK.value());
     }

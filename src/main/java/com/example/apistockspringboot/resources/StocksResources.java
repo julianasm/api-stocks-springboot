@@ -34,7 +34,7 @@ public class StocksResources {
     }
 
     @CrossOrigin
-    @GetMapping("/stock-info/{id}")
+    @GetMapping("stock-info/{id}")
     public Optional<Stocks> listStockInfoUnique(@PathVariable(value="id") Long id) throws InterruptedException {
 
         Thread.sleep(3000);

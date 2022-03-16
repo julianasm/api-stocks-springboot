@@ -5,6 +5,8 @@ import com.example.apistockspringboot.dto.StocksHistoricPricesDto;
 import com.example.apistockspringboot.repository.StocksHistoricPricesRepository;
 import com.example.apistockspringboot.resources.StocksHistoricResources;
 import com.example.apistockspringboot.resources.StocksResources;
+import com.example.apistockspringboot.service.StockService;
+import com.example.apistockspringboot.service.StocksHistoricPricesService;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +30,10 @@ public class StocksHistoricRepositoryTest {
     StocksHistoricPricesRepository stocksHistoricPricesRepository;
 
     @MockBean
-    StocksResources stocksResources;
+    StocksHistoricPricesService stocksHistoricPricesService;
+
+    @MockBean
+    StockService stockService;
 
     @BeforeEach
     public void setUp(){
