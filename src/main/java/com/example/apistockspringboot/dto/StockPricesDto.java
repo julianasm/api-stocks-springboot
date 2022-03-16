@@ -1,14 +1,11 @@
-package com.example.apistockspringboot.Dto;
+package com.example.apistockspringboot.dto;
 
-import com.example.apistockspringboot.models.Stocks;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Setter
 @Getter

@@ -1,5 +1,6 @@
 package com.example.apistockspringboot.service;
 
+import com.example.apistockspringboot.dto.StocksHistoricPricesDto;
 import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.models.StocksHistoricPrices;
 import com.example.apistockspringboot.repository.StocksHistoricPricesRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -35,5 +37,9 @@ public class StocksHistoricPricesService {
             stocksHistoricPricesRepository.save(new StocksHistoricPrices(stocks));
         }
 
+    }
+
+    public List<StocksHistoricPricesDto> historicPrices(Long idStock){
+        return stocksHistoricPricesRepository.findByIdStock(idStock).stream().map((StocksHistoricPrices stocksHistoricPrices) -> new StocksHistoricPricesDto(stocksHistoricPrices)).toList();
     }
 }

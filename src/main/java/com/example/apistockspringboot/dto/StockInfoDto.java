@@ -1,4 +1,4 @@
-package com.example.apistockspringboot.Dto;
+package com.example.apistockspringboot.dto;
 
 import lombok.Getter;
 import lombok.Setter;

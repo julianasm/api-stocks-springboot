@@ -1,7 +1,7 @@
 package com.example.apistockspringboot;
 
 
-import com.example.apistockspringboot.Dto.StocksHistoricPricesDto;
+import com.example.apistockspringboot.dto.StocksHistoricPricesDto;
 import com.example.apistockspringboot.repository.StocksHistoricPricesRepository;
 import com.example.apistockspringboot.resources.StocksHistoricResources;
 import com.example.apistockspringboot.resources.StocksResources;

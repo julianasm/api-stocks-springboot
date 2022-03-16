@@ -1,4 +1,4 @@
-package com.example.apistockspringboot.Dto;
+package com.example.apistockspringboot.dto;
 
 
 import com.example.apistockspringboot.models.Stocks;
@@ -22,12 +22,12 @@ public class StocksHistoricPricesDto {
     private Timestamp createdOn;
 
     public StocksHistoricPricesDto(StocksHistoricPrices stocksHistoricPrices){
-        this.idStock = stocksHistoricPrices.getId_stock();
+        this.idStock = stocksHistoricPrices.getIdStock();
         this.open = stocksHistoricPrices.getOpen();
         this.close = stocksHistoricPrices.getClose();
         this.high = stocksHistoricPrices.getHigh();
         this.low = stocksHistoricPrices.getLow();
-        this.createdOn = stocksHistoricPrices.getCreated_on();
+        this.createdOn = stocksHistoricPrices.getCreatedOn();
     }
 
 
