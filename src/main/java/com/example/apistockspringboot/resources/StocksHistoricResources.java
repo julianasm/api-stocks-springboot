@@ -1,8 +1,9 @@
 package com.example.apistockspringboot.resources;
 
-import com.example.apistockspringboot.Dto.StocksHistoricPricesDto;
+import com.example.apistockspringboot.dto.StocksHistoricPricesDto;
 import com.example.apistockspringboot.models.StocksHistoricPrices;
 import com.example.apistockspringboot.repository.StocksHistoricPricesRepository;
+import com.example.apistockspringboot.service.StocksHistoricPricesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StocksHistoricResources {
 
-    private final StocksHistoricPricesRepository stocksHistoricPricesRepository;
+    private final StocksHistoricPricesService stocksHistoricPricesService;
 
     @CrossOrigin
     @GetMapping("chart/{id}")
-    public List<StocksHistoricPricesDto> historicPrices(@PathVariable("id") Long id_stock){
-        System.out.println(id_stock);
-        return stocksHistoricPricesRepository.findByIdStock(id_stock).stream().map((StocksHistoricPrices stocksHistoricPrices) -> new StocksHistoricPricesDto(stocksHistoricPrices)).toList();
+    public List<StocksHistoricPricesDto> historicPrices(@PathVariable("id") Long idStock){
+       return stocksHistoricPricesService.historicPrices(idStock);
     }
 }

@@ -24,33 +24,41 @@ public class Stocks implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String stock_symbol;
+    @Column(name="stock_symbol")
+    private String stockSymbol;
 
-    private String stock_name;
+    @Column(name="stock_name")
+    private String stockName;
 
-    private Double ask_min;
+    @Column(name="ask_min")
+    private Double askMin;
 
-    private Double ask_max;
+    @Column(name="ask_max")
+    private Double askMax;
 
-    private Double bid_min;
+    @Column(name="bid_min")
+    private Double bidMin;
 
-    private Double bid_max;
+    @Column(name="bid_max")
+    private Double bidMax;
 
     @CreationTimestamp
-    private Timestamp created_on;
+    @Column(name="created_on")
+    private Timestamp createdOn;
 
     @UpdateTimestamp
-    private Timestamp updated_on;
+    @Column(name="updated_on")
+    private Timestamp updatedOn;
 
     public Stocks() {
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
+        this.createdOn = Timestamp.valueOf(LocalDateTime.now());
+        this.updatedOn = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Stocks(Long id, Double bid_min, Double bid_max) {
+    public Stocks(Long id, Double bidMin, Double bidMax) {
         this.id = id;
-        this.bid_min = bid_min;
-        this.bid_max = bid_max;
+        this.bidMin = bidMin;
+        this.bidMax = bidMax;
     }
 
 }
