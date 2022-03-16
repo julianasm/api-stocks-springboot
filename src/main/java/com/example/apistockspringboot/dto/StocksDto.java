@@ -1,4 +1,4 @@
-package com.example.apistockspringboot.Dto;
+package com.example.apistockspringboot.dto;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
