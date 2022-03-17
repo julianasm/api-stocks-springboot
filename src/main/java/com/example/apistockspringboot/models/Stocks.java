@@ -61,4 +61,6 @@ public class Stocks implements Serializable{
         this.bidMax = bidMax;
     }
 
+    public Stocks(Long id, String stockSymbol, String stockName, Double bidMin, Double bidMax, Double askMin, Double askMax) {
+    }
 }
