@@ -7,7 +7,6 @@ import com.example.apistockspringboot.handleerror.NotFoundException;
 import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.repository.StocksRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.NotActiveException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -48,7 +45,7 @@ public class StockService {
     }
 
     public List<GetAllStocksDto> listByUpdate(){
-        return stocksRepository.findAllOrderByUpdate().stream().map(stocks -> new GetAllStocksDto(stocks)).collect(Collectors.toList());
+        return stocksRepository.findAllOrderByUpdate().stream().map(GetAllStocksDto::new).toList();
     }
 
 
@@ -69,7 +66,7 @@ public class StockService {
         stocksRepository.save(stocksDto.pegarModel());
         dispatchEventToClients();
         stocksHistoricPricesService.atualizarPrices(stocksDto.pegarModel());
-        return new ResponseEntity<StockPricesDto>(stocksDto, HttpStatus.OK);
+        return new ResponseEntity<>(stocksDto, HttpStatus.OK);
     }
 
     public SseEmitter subscribe(HttpServletResponse response) {
