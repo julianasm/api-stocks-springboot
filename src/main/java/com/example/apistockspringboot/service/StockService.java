@@ -7,7 +7,6 @@ import com.example.apistockspringboot.handleerror.NotFoundException;
 import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.repository.StocksRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.NotActiveException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 
 @Service
