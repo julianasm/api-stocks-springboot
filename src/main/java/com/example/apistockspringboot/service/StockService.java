@@ -48,7 +48,7 @@ public class StockService {
     }
 
     public List<GetAllStocksDto> listByUpdate(){
-        return stocksRepository.findAllOrderByUpdate().stream().map(stocks -> new GetAllStocksDto(stocks)).collect(Collectors.toList());
+        return stocksRepository.findAllOrderByUpdate().stream().map(stocks -> new GetAllStocksDto(stocks)).toList();
     }
 
 
@@ -69,7 +69,7 @@ public class StockService {
         stocksRepository.save(stocksDto.pegarModel());
         dispatchEventToClients();
         stocksHistoricPricesService.atualizarPrices(stocksDto.pegarModel());
-        return new ResponseEntity<StockPricesDto>(stocksDto, HttpStatus.OK);
+        return new ResponseEntity<>(stocksDto, HttpStatus.OK);
     }
 
     public SseEmitter subscribe(HttpServletResponse response) {
