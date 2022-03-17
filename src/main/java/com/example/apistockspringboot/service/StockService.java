@@ -45,7 +45,7 @@ public class StockService {
     }
 
     public List<GetAllStocksDto> listByUpdate(){
-        return stocksRepository.findAllOrderByUpdate().stream().map(stocks -> new GetAllStocksDto(stocks)).toList();
+        return stocksRepository.findAllOrderByUpdate().stream().map(GetAllStocksDto::new).toList();
     }
 
 
