@@ -1,6 +1,9 @@
 package com.example.apistockspringboot.service;
 
+import com.example.apistockspringboot.dto.GetAllStocksDto;
+import com.example.apistockspringboot.dto.StockInfoDto;
 import com.example.apistockspringboot.dto.StockPricesDto;
+import com.example.apistockspringboot.handleerror.NotFoundException;
 import com.example.apistockspringboot.models.Stocks;
 import com.example.apistockspringboot.repository.StocksRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +15,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.NotActiveException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,7 +28,7 @@ public class StockService {
 
     private final StocksRepository stocksRepository;
 
-    private StocksHistoricPricesService stocksHistoricPricesService;
+    private final StocksHistoricPricesService stocksHistoricPricesService;
 
 
     public Stocks salvar(Stocks stocks) {
@@ -33,16 +38,21 @@ public class StockService {
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
 
-    public Optional<Stocks> listStockInfo(Long id){
-        return stocksRepository.findById(id);
+    public StockInfoDto getStockInfo(Long id) throws NotFoundException {
+        Optional<Stocks> stocks = stocksRepository.findById(id);
+        if (stocks.isPresent()){
+            return new StockInfoDto(stocks.get());
+        } else {
+            throw new NotFoundException("STOCK_NOT_FOUND");
+        }
     }
 
-    public List<Stocks> listByUpdate(){
-        return stocksRepository.findAllOrderByUpdate();
+    public List<GetAllStocksDto> listByUpdate(){
+        return stocksRepository.findAllOrderByUpdate().stream().map(stocks -> new GetAllStocksDto(stocks)).collect(Collectors.toList());
     }
 
 
-    public ResponseEntity<Stocks> updateStocks(StockPricesDto stocksDto){
+    public ResponseEntity<StockPricesDto> updateStocks(StockPricesDto stocksDto){
         Stocks stocks = stocksRepository.findById(stocksDto.getId()).orElseThrow(Error::new);
         if (stocksDto.getBidMin() != null) {
             stocks.setBidMin(stocksDto.getBidMin());
@@ -56,10 +66,10 @@ public class StockService {
         if (stocksDto.getAskMax() != null){
             stocks.setAskMax(stocksDto.getAskMax());
         }
-        stocksRepository.save(stocks);
+        stocksRepository.save(stocksDto.pegarModel());
         dispatchEventToClients();
-        stocksHistoricPricesService.atualizarPrices(stocks);
-        return new ResponseEntity<>(stocks, HttpStatus.OK);
+        stocksHistoricPricesService.atualizarPrices(stocksDto.pegarModel());
+        return new ResponseEntity<StockPricesDto>(stocksDto, HttpStatus.OK);
     }
 
     public SseEmitter subscribe(HttpServletResponse response) {
