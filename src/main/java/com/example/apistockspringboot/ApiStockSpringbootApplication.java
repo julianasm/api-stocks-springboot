@@ -7,8 +7,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import java.util.logging.Logger;
+
 @SpringBootApplication
 public class ApiStockSpringbootApplication {
+
 
     public static void main(String[] args) {
         SpringApplication.run(ApiStockSpringbootApplication.class, args);
@@ -25,4 +28,5 @@ public class ApiStockSpringbootApplication {
                     .oauth2ResourceServer().jwt();
         }
     }
+
 }

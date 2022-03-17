@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest
-public class StocksHistoricRepositoryTest {
+  class StocksHistoricRepositoryTest {
 
     @Autowired
     StocksHistoricResources stocksHistoricResources;
@@ -41,7 +41,7 @@ public class StocksHistoricRepositoryTest {
     }
 
     @Test
-    public void RetornarHistoricoStocks() {
+    void RetornarHistoricoStocks() {
         when(this.stocksHistoricResources.historicPrices(9L)).
         thenReturn(new ArrayList<StocksHistoricPricesDto>().stream().toList());
 

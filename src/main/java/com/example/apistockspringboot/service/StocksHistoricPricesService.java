@@ -40,6 +40,6 @@ public class StocksHistoricPricesService {
     }
 
     public List<StocksHistoricPricesDto> historicPrices(Long idStock){
-        return stocksHistoricPricesRepository.findByIdStock(idStock).stream().map((StocksHistoricPrices stocksHistoricPrices) -> new StocksHistoricPricesDto(stocksHistoricPrices)).toList();
+        return stocksHistoricPricesRepository.findByIdStock(idStock).stream().map(StocksHistoricPricesDto::new).toList();
     }
 }

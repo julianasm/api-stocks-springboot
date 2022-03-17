@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest
 @RequiredArgsConstructor
-public class StocksResourceTest {
+ class StocksResourceTest {
 
     @Autowired
     private StocksResources stocksResources;
@@ -45,7 +45,7 @@ public class StocksResourceTest {
     }
 
     @Test
-    public void RetornarStockPorId() throws Exception {
+    void RetornarStockPorId() throws Exception {
         when(this.stocksRepository.findById(5L)).
         thenReturn(java.util.Optional.of(new Stocks(5L, 30D, 30D)));
 
@@ -57,7 +57,7 @@ public class StocksResourceTest {
     }
 
     @Test
-    public void RetornarTodosStocks() {
+    void RetornarTodosStocks() {
         when(this.stocksRepository.findAllOrderByUpdate()).thenReturn(new ArrayList<Stocks>().stream().toList());
 
         RestAssuredMockMvc.given().accept(ContentType.JSON).when()
