@@ -1,5 +1,6 @@
 package com.example.apistockspringboot.service;
 
+import antlr.build.Tool;
 import com.example.apistockspringboot.dto.GetAllStocksDto;
 import com.example.apistockspringboot.dto.StockInfoDto;
 import com.example.apistockspringboot.dto.StockPricesDto;
@@ -22,6 +23,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 @RequiredArgsConstructor
 public class StockService {
+
+    org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(StockService.class);
 
     private final StocksRepository stocksRepository;
 
@@ -76,7 +79,7 @@ public class StockService {
         try {
             emitters.add(sseEmitter);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         sseEmitter.onCompletion(() -> this.emitters.remove(sseEmitter));
 
